@@ -20,13 +20,11 @@ const scissorAI = imagesAll[2];
 const playerPH2 = h2All[0];
 const aiPointsPH2 = h2All[1];
 
-let finish = 0;
 button.addEventListener('click', event => {
     event.preventDefault();
 
-    if (finish != 1 && inputAll[0].value != '') {
+    if (inputAll[0].value != '') {
         playerName.innerText = inputAll[0].value;
-        finish++;
         const form = document.querySelector('form');
         form.classList.remove('namePrompt');
         result.innerText = '';
@@ -36,67 +34,26 @@ button.addEventListener('click', event => {
 
 let playerPoints = 0;
 let aiPoints = 0;
+let random = 0;
 
-rock.addEventListener('click', event => {
-    event.preventDefault();
-    rock.toggleAttribute('disabled');
-    result.innerText = '';
+document.querySelector('div').addEventListener('click', event => {
+    if (event.target.id === 'rock' || event.target.id === 'paper' || event.target.id === 'scissor') {
+        event.preventDefault();
+        rock.toggleAttribute('disabled');
+        paper.toggleAttribute('disabled');
+        scissor.toggleAttribute('disabled');
+        result.innerText = '';
+        random = Math.round(Math.random() * 2);
+    }
 
-  const  random = Math.round(Math.random() * 2);
-
-    if (playerPoints < 3 && aiPoints < 3) {
+    if (event.target.id === 'rock') {
         rockIfElse(random);
-    }
-
-    if (playerPoints == 3 || aiPoints == 3) {
-        if (playerPoints > aiPoints) {
-            result.innerText = `${playerName.innerText} has won ${playerPoints} to ${aiPoints}\nTo play again just choose a weapon.`;
-        } else {
-            result.innerText = `Computer has won ${aiPoints} to ${playerPoints}\nTo play again just choose a weapon.`;
-        }
-        playerPoints = 0;
-        aiPoints = 0;
-    }
-    playerPH2.innerText = playerPoints;
-    aiPointsPH2.innerText = aiPoints;
-});
-
-paper.addEventListener('click', event => {
-    event.preventDefault();
-    paper.toggleAttribute('disabled');
-
-    result.innerText = '';
-
-   const random = Math.round(Math.random() * 2);
-
-    if (playerPoints < 3 && aiPoints < 3) {
+    } else if (event.target.id === 'paper') {
         paperIfElse(random);
-    }
-
-    if (playerPoints == 3 || aiPoints == 3) {
-        if (playerPoints > aiPoints) {
-            result.innerText = `${playerName.innerText} has won ${playerPoints} to ${aiPoints}\nTo play again just choose a weapon.`;
-        } else {
-            result.innerText = `Computer has won ${aiPoints} to ${playerPoints}\nTo play again just choose a weapon.`;
-        }
-        playerPoints = 0;
-        aiPoints = 0;
-    }
-    playerPH2.innerText = playerPoints;
-    aiPointsPH2.innerText = aiPoints;
-});
-
-scissor.addEventListener('click', event => {
-    event.preventDefault();
-    scissor.toggleAttribute('disabled');
-
-   const random = Math.round(Math.random() * 2);
-
-    result.innerText = '';
-
-    if (playerPoints < 3 && aiPoints < 3) {
+    } else if (event.target.id === 'scissor') {
         scissorIfElse(random);
     }
+
     if (playerPoints == 3 || aiPoints == 3) {
         if (playerPoints > aiPoints) {
             result.innerText = `${playerName.innerText} has won ${playerPoints} to ${aiPoints}\nTo play again just choose a weapon.`;
@@ -123,7 +80,7 @@ function rockIfElse(random) {
         rock.style.background = 'orange';
         rockAI.style.background = 'orange';
     }
-    reverseColor(1);
+    reverseColor();
 }
 
 function paperIfElse(random) {
@@ -138,7 +95,7 @@ function paperIfElse(random) {
     } else {
         paper.style.background = 'orange';
         paperAI.style.background = 'orange';
-    } reverseColor(2);
+    } reverseColor();
 }
 
 function scissorIfElse(random) {
@@ -153,13 +110,11 @@ function scissorIfElse(random) {
     } else {
         scissor.style.background = 'orange';
         scissorAI.style.background = 'orange';
-    }reverseColor(3);
+    } reverseColor();
 }
 
-function reverseColor(number) {
-
+function reverseColor() {
     setTimeout(function background() {
-
         rock.style.backgroundColor = 'rgb(10, 173, 228)';
         paper.style.backgroundColor = 'rgb(10, 173, 228)';
         scissor.style.backgroundColor = 'rgb(10, 173, 228)';
@@ -167,14 +122,9 @@ function reverseColor(number) {
         rockAI.style.backgroundColor = 'rgb(10, 173, 228)';
         paperAI.style.backgroundColor = 'rgb(10, 173, 228)';
         scissorAI.style.backgroundColor = 'rgb(10, 173, 228)';
-        if(number == 1){
-            rock.toggleAttribute('disabled');
-        }else if(number == 2){
-            paper.toggleAttribute('disabled');
-        }else if(number == 3){
-            scissor.toggleAttribute('disabled');
-        }
-        
-        
-    }, 1000);
+
+        rock.toggleAttribute('disabled');
+        paper.toggleAttribute('disabled');
+        scissor.toggleAttribute('disabled');
+    }, 1500);
 }
